@@ -1,4 +1,4 @@
-levels = ["", "s", "p", "d", "f", "g"]
+levels = ["", "s", "p", "d", "f", "g", "h", "i"]
 
 
 def get_cap(l):
@@ -73,7 +73,7 @@ def generate_terms(n, l):
             max_ml = i["ml"]
     current_l = max_ml
     terms = []
-    while current_l >= 0:
+    while current_l >= 0 and len(states) != 0:
         local_states = []
         s = -100000000
         for i in states:
@@ -141,8 +141,29 @@ def generate_general_term(terms):
     print_term(general_term)
 
 
+def get_index(n):
+    var = list(n)
+    powers = "₀₁₂₃₄₅₆₇₈₉"
+    result = ""
+    for i in var:
+        if i == ".":
+            result += ","
+        else:
+            result += powers[int(i)]
+    return result
+
+
+def get_power(n):
+    var = list(n)
+    powers = "⁰¹²³⁴⁵⁶⁷⁸⁹"
+    result = ""
+    for i in var:
+        result += powers[int(i)]
+    return result
+
+
 def print_term(term):
-    print(str(int(term["S"] * 2 + 1)) + levels[term["L"] + 1].upper() + str(term["J"]))
+    print(get_power(str(int(term["S"] * 2 + 1))) + levels[term["L"] + 1].upper() + get_index(str(term["J"])))
 
 
 def print_e_configuration(conf, last):
@@ -153,7 +174,7 @@ def print_e_configuration(conf, last):
             max_cap = str(last)
         else:
             max_cap = str(get_cap(l))
-        print(str(n) + levels[l] + "^" + max_cap, end=" ")
+        print(str(n) + levels[l] + get_power(max_cap), end="")
     print("")
 
 
